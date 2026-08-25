@@ -1,2 +1,7 @@
-# WahaajTauqir.github.io
-Personal portfolio of Muhammad Wahaaj Tauqir — software engineering, AR/VR, computer vision, and interactive projects.
+# Muhammad Wahaaj Tauqir — Portfolio
+
+Personal portfolio blending research in trustworthy and explainable AI with
+production software engineering, computer vision, and immersive systems.
+
+The site is designed as a lightweight, dependency-free static experience for
+GitHub Pages.
