@@ -94,6 +94,8 @@ a {
 
 .pointer-glow {
   position: fixed;
+  top: 0;
+  left: 0;
   z-index: 50;
   width: 30rem;
   height: 30rem;
@@ -105,6 +107,8 @@ a {
 
 .cursor-dot {
   position: fixed;
+  top: 0;
+  left: 0;
   z-index: 100;
   width: 7px;
   height: 7px;
@@ -450,15 +454,27 @@ a {
 .orbit-label {
   position: absolute;
   z-index: 3;
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(7, 9, 15, 0.72);
-  color: #c9cfda;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #d5dbe6;
   font-family: var(--mono);
-  font-size: 0.54rem;
-  letter-spacing: 0.11em;
-  backdrop-filter: blur(10px);
+  font-size: clamp(0.64rem, 0.72vw, 0.78rem);
+  font-weight: 590;
+  letter-spacing: 0.13em;
+  line-height: 1;
+  text-shadow: 0 2px 12px rgba(7, 9, 15, 0.95);
+  white-space: nowrap;
+}
+
+.orbit-label::before {
+  width: 5px;
+  height: 5px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 11px rgba(94, 231, 255, 0.75);
+  content: "";
 }
 
 .label-ai { top: 8%; left: 30%; }
@@ -800,6 +816,7 @@ a {
 }
 
 .portfolio-card {
+  --interaction-accent: var(--cyan);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -810,6 +827,7 @@ a {
   border: 1px solid var(--line);
   border-radius: 25px;
   background: #0d1019;
+  cursor: pointer;
   outline: none;
   transform-style: preserve-3d;
   transition: border-color 240ms ease, transform 220ms ease-out, box-shadow 240ms ease;
@@ -844,14 +862,17 @@ a {
   right: 8%;
   width: 150px;
   height: 150px;
-  background: radial-gradient(circle, var(--card-glow), transparent 68%);
+  background: radial-gradient(circle, var(--interaction-accent), transparent 68%);
   opacity: 0.23;
 }
 
 .portfolio-card:hover,
 .portfolio-card:focus-visible {
-  border-color: color-mix(in srgb, var(--card-accent) 52%, transparent);
-  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.28);
+  border-color: color-mix(in srgb, var(--interaction-accent) 52%, transparent);
+  box-shadow:
+    0 26px 80px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(94, 231, 255, 0.04),
+    inset 0 0 44px rgba(94, 231, 255, 0.035);
 }
 
 .portfolio-card:hover::before { transform: scale(1.16) rotate(14deg); }
@@ -921,8 +942,10 @@ a {
 }
 
 .portfolio-card:hover .card-arrow {
-  background: var(--card-accent);
+  border-color: rgba(94, 231, 255, 0.5);
+  background: var(--interaction-accent);
   color: #080a0f;
+  box-shadow: 0 0 22px rgba(94, 231, 255, 0.2);
   transform: rotate(12deg);
 }
 
@@ -1035,6 +1058,118 @@ a {
   transform: translateY(-2px);
 }
 
+.recognition {
+  padding-bottom: clamp(110px, 12vw, 190px);
+}
+
+.recognition-heading {
+  margin-bottom: 46px;
+}
+
+.recognition-heading h2 {
+  max-width: 880px;
+  margin: 0;
+  font-size: clamp(2.8rem, 5.5vw, 5.6rem);
+  font-weight: 710;
+  line-height: 0.94;
+  letter-spacing: -0.058em;
+}
+
+.recognition-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.credential-panel {
+  --credential-accent: var(--cyan);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--credential-accent) 5%, transparent), transparent 42%),
+    rgba(255, 255, 255, 0.014);
+}
+
+.certificate-panel { --credential-accent: var(--violet); }
+
+.credential-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  padding: 19px 21px;
+  color: #838b9b;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+}
+
+.credential-panel-heading span:last-child {
+  color: var(--credential-accent);
+}
+
+.recognition-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  min-height: 82px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--line);
+  transition: background 220ms ease, padding 220ms ease;
+}
+
+.recognition-item:hover,
+.recognition-item:focus-visible {
+  padding-left: 24px;
+  background: color-mix(in srgb, var(--credential-accent) 6%, transparent);
+}
+
+.recognition-item i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--credential-accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--credential-accent) 75%, transparent);
+}
+
+.recognition-item > span {
+  display: grid;
+  gap: 5px;
+}
+
+.recognition-item strong {
+  color: #dde2eb;
+  font-size: clamp(0.94rem, 1.25vw, 1.08rem);
+  font-weight: 580;
+}
+
+.recognition-item small {
+  color: #858d9d;
+  font-family: var(--mono);
+  font-size: clamp(0.66rem, 0.78vw, 0.73rem);
+  line-height: 1.45;
+}
+
+.recognition-item b {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: #929aaa;
+  font-size: 0.74rem;
+  font-weight: 500;
+  transition: border-color 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+.recognition-item:hover b,
+.recognition-item:focus-visible b {
+  border-color: color-mix(in srgb, var(--credential-accent) 45%, transparent);
+  color: var(--credential-accent);
+  transform: translate(2px, -2px);
+}
+
 .contact {
   padding-bottom: 34px;
   border-top: 1px solid var(--line);
@@ -1107,6 +1242,21 @@ a {
   transform: translateY(0);
 }
 
+@media (max-width: 1180px) {
+  .scroll-gateway {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin: 24px 0 0;
+    transform: none;
+  }
+
+  .scroll-gateway:hover,
+  .scroll-gateway:focus-visible { transform: translateY(-4px); }
+}
+
 @media (max-width: 1080px) {
   .hero {
     grid-template-columns: 1fr;
@@ -1116,18 +1266,7 @@ a {
   .hero-copy { max-width: 870px; }
   .hero-visual { min-height: 570px; }
   .core-stage { width: min(76vw, 560px); }
-  .scroll-gateway {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    grid-column: 1 / -1;
-    justify-self: center;
-    margin: -58px 0 26px;
-    transform: none;
-  }
-
-  .scroll-gateway:hover,
-  .scroll-gateway:focus-visible { transform: translateY(-4px); }
+  .scroll-gateway { margin-bottom: 26px; }
 
   .portfolio-card:nth-child(1),
   .portfolio-card:nth-child(2),
@@ -1147,7 +1286,8 @@ a {
   .hero-intro { max-width: 540px; }
 
   .section-heading,
-  .research-panel {
+  .research-panel,
+  .recognition-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1183,7 +1323,11 @@ a {
   .hero-actions .button { width: fit-content; }
   .hero-visual { min-height: 430px; }
   .core-stage { width: min(96vw, 430px); }
-  .orbit-label { font-size: 0.42rem; }
+  .orbit-label {
+    gap: 6px;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+  }
   .work,
   .research,
   .contact { padding-block: 90px; }
@@ -1191,6 +1335,7 @@ a {
   .section-heading { margin-bottom: 42px; }
   .section-heading h2,
   .research-copy h2,
+  .recognition-heading h2,
   .contact h2 { font-size: clamp(2.9rem, 15vw, 4.8rem); }
 
   .skill-group { padding: 22px; }

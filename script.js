@@ -51,7 +51,7 @@ if (!prefersReducedMotion && window.matchMedia("(pointer: fine)").matches) {
   const animateCursor = () => {
     dotX += (pointerX - dotX) * 0.24;
     dotY += (pointerY - dotY) * 0.24;
-    cursorDot.style.transform = `translate(${dotX - 3.5}px, ${dotY - 3.5}px)`;
+    cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
     requestAnimationFrame(animateCursor);
   };
   animateCursor();
