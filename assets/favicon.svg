@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="monogram" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5ee7ff" />
+      <stop offset="1" stop-color="#8c6cff" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#07090f" />
+  <rect x="1.5" y="1.5" width="61" height="61" rx="14.5" fill="none" stroke="#ffffff" stroke-opacity="0.09" />
+  <!-- "W" from Bitstream Charter Bold (bchb8a.pfb), the CV typeface, as an outline path. -->
+  <path transform="translate(8.902 48.383) scale(0.04883 -0.04883)" fill="url(#monogram)" d="M227 0H324L476 512L631 0H728L881 608L944 622V671H726V622L792 610L804 596L699 176L551 671H450L306 187L194 602L202 616L264 623V671H2V622L65 608Z" />
+</svg>
