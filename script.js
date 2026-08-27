@@ -96,7 +96,7 @@ const createParticles = () => {
 };
 
 const resizeCanvas = () => {
-  canvasWidth = window.innerWidth;
+  canvasWidth = document.documentElement.clientWidth;
   canvasHeight = window.innerHeight;
   deviceScale = Math.min(window.devicePixelRatio || 1, 2);
   signalCanvas.width = canvasWidth * deviceScale;
