@@ -1052,6 +1052,33 @@ a {
   transition: transform 400ms cubic-bezier(.2,.8,.2,1);
 }
 
+.work-grid .portfolio-card[href*="youtube.com"] .card-visual::before {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  display: grid;
+  width: 32px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 72%, transparent);
+  border-radius: 6px;
+  background: rgba(11, 14, 23, 0.58);
+  color: var(--card-accent);
+  content: "▶";
+  font-size: 0.62rem;
+  line-height: 1;
+  text-indent: 1px;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--card-accent) 16%, transparent);
+  pointer-events: none;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+.work-grid .portfolio-card[href*="youtube.com"]:hover .card-visual::before {
+  border-color: var(--card-accent);
+  background: color-mix(in srgb, var(--card-accent) 14%, rgba(11, 14, 23, 0.72));
+}
+
 .portfolio-card:hover .card-visual svg { transform: scale(1.06); }
 
 .card-body {
@@ -1108,13 +1135,7 @@ a {
 }
 
 .card-youtube {
-  width: 1.1em;
-  height: 1.1em;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.65;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  display: none;
 }
 
 .card-arrow {
