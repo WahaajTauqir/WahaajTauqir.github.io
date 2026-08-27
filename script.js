@@ -1,9 +1,9 @@
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const pointerGlow = document.querySelector(".pointer-glow");
-const cursorDot = document.querySelector(".cursor-dot");
+const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
+/* Reveal sections as they enter the viewport. */
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -21,9 +21,10 @@ document.querySelectorAll(".reveal").forEach((element, index) => {
   revealObserver.observe(element);
 });
 
+/* Scroll gateway spotlight follows the pointer. */
 const scrollGateway = document.querySelector(".scroll-gateway");
 
-if (scrollGateway && window.matchMedia("(pointer: fine)").matches) {
+if (scrollGateway && hasFinePointer) {
   scrollGateway.addEventListener("pointermove", (event) => {
     const rect = scrollGateway.getBoundingClientRect();
     scrollGateway.style.setProperty("--gateway-x", `${event.clientX - rect.left}px`);
@@ -36,31 +37,8 @@ if (scrollGateway && window.matchMedia("(pointer: fine)").matches) {
   });
 }
 
-if (!prefersReducedMotion && window.matchMedia("(pointer: fine)").matches) {
-  let pointerX = window.innerWidth / 2;
-  let pointerY = window.innerHeight / 2;
-  let dotX = pointerX;
-  let dotY = pointerY;
-
-  window.addEventListener("pointermove", (event) => {
-    pointerX = event.clientX;
-    pointerY = event.clientY;
-    pointerGlow.style.transform = `translate(${pointerX - 240}px, ${pointerY - 240}px)`;
-  });
-
-  const animateCursor = () => {
-    dotX += (pointerX - dotX) * 0.24;
-    dotY += (pointerY - dotY) * 0.24;
-    cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
-    requestAnimationFrame(animateCursor);
-  };
-  animateCursor();
-
-  document.querySelectorAll("a, [data-tilt]").forEach((element) => {
-    element.addEventListener("pointerenter", () => cursorDot.classList.add("is-hovering"));
-    element.addEventListener("pointerleave", () => cursorDot.classList.remove("is-hovering"));
-  });
-
+/* Tilt and magnetic hover — desktop pointers only. */
+if (!prefersReducedMotion && hasFinePointer) {
   document.querySelectorAll("[data-tilt]").forEach((element) => {
     element.addEventListener("pointermove", (event) => {
       const rect = element.getBoundingClientRect();
@@ -69,8 +47,6 @@ if (!prefersReducedMotion && window.matchMedia("(pointer: fine)").matches) {
       const rotateY = (x - 0.5) * 7;
       const rotateX = (0.5 - y) * 7;
 
-      element.style.setProperty("--tilt-x", `${x * 100}%`);
-      element.style.setProperty("--tilt-y", `${y * 100}%`);
       element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
     });
 
@@ -92,13 +68,21 @@ if (!prefersReducedMotion && window.matchMedia("(pointer: fine)").matches) {
   });
 }
 
-const canvas = document.getElementById("signal-field");
-const context = canvas.getContext("2d");
+/* Signal field — particle canvas behind the hero.
+   It fades out as the hero scrolls away so content sections sit on a calm background,
+   and skips drawing entirely once hidden. */
+const signalCanvas = document.getElementById("signal-field");
+const signalContext = signalCanvas.getContext("2d");
+const signalBaseOpacity = parseFloat(getComputedStyle(signalCanvas).opacity) || 1;
+const heroFadeRatio = 0.85; // fraction of the viewport height over which the field fades out
+const pointerRepelRadius = 150;
+const linkDistance = 115;
+const pointer = { x: -1000, y: -1000 };
+
 let particles = [];
 let canvasWidth = 0;
 let canvasHeight = 0;
 let deviceScale = Math.min(window.devicePixelRatio || 1, 2);
-const mouse = { x: -1000, y: -1000 };
 
 const createParticles = () => {
   const count = Math.min(72, Math.max(32, Math.floor(canvasWidth / 22)));
@@ -112,19 +96,29 @@ const createParticles = () => {
 };
 
 const resizeCanvas = () => {
-  canvasWidth = window.innerWidth;
+  canvasWidth = document.documentElement.clientWidth;
   canvasHeight = window.innerHeight;
   deviceScale = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = canvasWidth * deviceScale;
-  canvas.height = canvasHeight * deviceScale;
-  canvas.style.width = `${canvasWidth}px`;
-  canvas.style.height = `${canvasHeight}px`;
-  context.setTransform(deviceScale, 0, 0, deviceScale, 0, 0);
+  signalCanvas.width = canvasWidth * deviceScale;
+  signalCanvas.height = canvasHeight * deviceScale;
+  signalCanvas.style.width = `${canvasWidth}px`;
+  signalCanvas.style.height = `${canvasHeight}px`;
+  signalContext.setTransform(deviceScale, 0, 0, deviceScale, 0, 0);
   createParticles();
 };
 
+const getHeroVisibility = () => 1 - Math.min(window.scrollY / (canvasHeight * heroFadeRatio), 1);
+
 const drawSignalField = () => {
-  context.clearRect(0, 0, canvasWidth, canvasHeight);
+  const heroVisibility = getHeroVisibility();
+  signalCanvas.style.opacity = (signalBaseOpacity * heroVisibility).toFixed(3);
+
+  if (heroVisibility === 0) {
+    requestAnimationFrame(drawSignalField);
+    return;
+  }
+
+  signalContext.clearRect(0, 0, canvasWidth, canvasHeight);
 
   particles.forEach((particle, index) => {
     if (!prefersReducedMotion) {
@@ -137,27 +131,29 @@ const drawSignalField = () => {
     if (particle.y < -10) particle.y = canvasHeight + 10;
     if (particle.y > canvasHeight + 10) particle.y = -10;
 
-    const mouseDistance = Math.hypot(particle.x - mouse.x, particle.y - mouse.y);
-    if (mouseDistance < 150 && mouseDistance > 0 && !prefersReducedMotion) {
-      particle.x += ((particle.x - mouse.x) / mouseDistance) * 0.22;
-      particle.y += ((particle.y - mouse.y) / mouseDistance) * 0.22;
+    const pointerDistance = Math.hypot(particle.x - pointer.x, particle.y - pointer.y);
+    const isNearPointer = pointerDistance < pointerRepelRadius;
+
+    if (isNearPointer && pointerDistance > 0 && !prefersReducedMotion) {
+      particle.x += ((particle.x - pointer.x) / pointerDistance) * 0.22;
+      particle.y += ((particle.y - pointer.y) / pointerDistance) * 0.22;
     }
 
-    context.beginPath();
-    context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-    context.fillStyle = mouseDistance < 150 ? "rgba(94, 231, 255, 0.85)" : "rgba(178, 188, 215, 0.45)";
-    context.fill();
+    signalContext.beginPath();
+    signalContext.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+    signalContext.fillStyle = isNearPointer ? "rgba(94, 231, 255, 0.85)" : "rgba(178, 188, 215, 0.45)";
+    signalContext.fill();
 
     for (let otherIndex = index + 1; otherIndex < particles.length; otherIndex += 1) {
       const other = particles[otherIndex];
       const distance = Math.hypot(particle.x - other.x, particle.y - other.y);
-      if (distance < 115) {
-        context.beginPath();
-        context.moveTo(particle.x, particle.y);
-        context.lineTo(other.x, other.y);
-        context.strokeStyle = `rgba(116, 145, 205, ${(1 - distance / 115) * 0.14})`;
-        context.lineWidth = 0.6;
-        context.stroke();
+      if (distance < linkDistance) {
+        signalContext.beginPath();
+        signalContext.moveTo(particle.x, particle.y);
+        signalContext.lineTo(other.x, other.y);
+        signalContext.strokeStyle = `rgba(116, 145, 205, ${(1 - distance / linkDistance) * 0.14})`;
+        signalContext.lineWidth = 0.6;
+        signalContext.stroke();
       }
     }
   });
@@ -167,12 +163,12 @@ const drawSignalField = () => {
 
 window.addEventListener("resize", resizeCanvas);
 window.addEventListener("pointermove", (event) => {
-  mouse.x = event.clientX;
-  mouse.y = event.clientY;
+  pointer.x = event.clientX;
+  pointer.y = event.clientY;
 });
 window.addEventListener("pointerleave", () => {
-  mouse.x = -1000;
-  mouse.y = -1000;
+  pointer.x = -1000;
+  pointer.y = -1000;
 });
 
 resizeCanvas();
