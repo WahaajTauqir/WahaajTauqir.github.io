@@ -1052,6 +1052,24 @@ a {
   transition: transform 400ms cubic-bezier(.2,.8,.2,1);
 }
 
+.scorecard-award {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  color: var(--card-accent);
+  pointer-events: none;
+}
+
+.scorecard-award svg {
+  width: 36px;
+  height: 36px;
+  max-width: none;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--card-accent) 56%, transparent));
+}
+
 .work-grid .portfolio-card[href*="youtube.com"] .card-visual::before {
   position: absolute;
   top: 14px;
@@ -1098,15 +1116,6 @@ a {
   font-weight: 660;
   line-height: 1.05;
   letter-spacing: -0.04em;
-}
-
-.award-trophy {
-  display: inline-block;
-  width: 0.75em;
-  height: 0.75em;
-  margin-left: 0.16em;
-  color: var(--card-accent);
-  vertical-align: 0.02em;
 }
 
 .award-highlight {
