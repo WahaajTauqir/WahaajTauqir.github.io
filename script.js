@@ -21,6 +21,72 @@ document.querySelectorAll(".reveal").forEach((element, index) => {
   revealObserver.observe(element);
 });
 
+/* Hero news rail: buttons, keyboard arrows, and native touch scrolling. */
+const newsFeed = document.querySelector(".hero-news-feed");
+const newsItems = Array.from(document.querySelectorAll(".hero-news-item"));
+const newsPrevious = document.querySelector("[data-news-previous]");
+const newsNext = document.querySelector("[data-news-next]");
+const newsCurrent = document.querySelector("[data-news-current]");
+const newsTotal = document.querySelector("[data-news-total]");
+
+if (newsFeed && newsItems.length && newsPrevious && newsNext && newsCurrent && newsTotal) {
+  let newsIndex = 0;
+  let newsScrollFrame;
+
+  const formatNewsIndex = (value) => String(value).padStart(2, "0");
+
+  const getVisibleNewsCount = () => {
+    const itemHeight = newsItems[0].getBoundingClientRect().height;
+    return Math.max(1, Math.floor((newsFeed.clientHeight + 1) / itemHeight));
+  };
+
+  const updateNewsControls = () => {
+    const visibleCount = getVisibleNewsCount();
+    const lastVisibleIndex = Math.min(newsIndex + visibleCount, newsItems.length);
+    newsCurrent.textContent = visibleCount > 1
+      ? `${formatNewsIndex(newsIndex + 1)}–${formatNewsIndex(lastVisibleIndex)}`
+      : formatNewsIndex(newsIndex + 1);
+    newsTotal.textContent = formatNewsIndex(newsItems.length);
+    newsPrevious.disabled = newsIndex === 0;
+    newsNext.disabled = newsIndex >= newsItems.length - visibleCount;
+  };
+
+  const showNewsItem = (index) => {
+    const maxIndex = Math.max(0, newsItems.length - getVisibleNewsCount());
+    newsIndex = Math.max(0, Math.min(index, maxIndex));
+    newsFeed.scrollTo({
+      top: newsItems[newsIndex].offsetTop - newsItems[0].offsetTop,
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    });
+    updateNewsControls();
+  };
+
+  newsPrevious.addEventListener("click", () => showNewsItem(newsIndex - 1));
+  newsNext.addEventListener("click", () => showNewsItem(newsIndex + 1));
+
+  newsFeed.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+      event.preventDefault();
+      showNewsItem(newsIndex + (event.key === "ArrowDown" ? 1 : -1));
+    }
+  });
+
+  newsFeed.addEventListener("scroll", () => {
+    cancelAnimationFrame(newsScrollFrame);
+    newsScrollFrame = requestAnimationFrame(() => {
+      const itemHeight = newsItems[0].getBoundingClientRect().height;
+      const maxIndex = Math.max(0, newsItems.length - getVisibleNewsCount());
+      const nextIndex = Math.round(newsFeed.scrollTop / itemHeight);
+      newsIndex = Math.max(0, Math.min(nextIndex, maxIndex));
+      updateNewsControls();
+    });
+  }, { passive: true });
+
+  window.addEventListener("resize", () => showNewsItem(newsIndex));
+
+  updateNewsControls();
+}
+
 /* Scroll gateway spotlight follows the pointer. */
 const scrollGateway = document.querySelector(".scroll-gateway");
 

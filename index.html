@@ -31,9 +31,9 @@
     <meta name="twitter:image" content="https://wahaajtauqir.github.io/assets/muhammad-wahaaj-tauqir.png" />
 
     <title>Muhammad Wahaaj Tauqir | Software Engineering &amp; Applied Research</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260827" />
     <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
-    <script src="script.js" defer></script>
+    <script src="script.js?v=20260827" defer></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -76,6 +76,7 @@
       </a>
 
       <nav class="nav-pill" aria-label="Primary navigation">
+        <a href="#news">News</a>
         <a href="#engineering">Engineering</a>
         <a href="#research">Research</a>
         <a href="#recognition">Recognition</a>
@@ -140,6 +141,47 @@
             </div>
           </div>
         </div>
+
+        <aside class="hero-news reveal" id="news" aria-labelledby="news-title">
+          <div class="hero-news-heading">
+            <span id="news-title"><i aria-hidden="true"></i> News</span>
+            <p>Latest updates</p>
+          </div>
+
+          <div class="hero-news-feed" tabindex="0" aria-label="News items">
+            <div class="hero-news-track">
+              <article class="hero-news-item">
+                <div class="hero-news-meta">
+                  <time datetime="2026">2026</time>
+                  <span>Publication</span>
+                </div>
+                <div class="hero-news-story">
+                  <h2>5G intrusion detection with SHAP</h2>
+                  <p>First and corresponding author · Spectrum of Engineering Sciences</p>
+                </div>
+              </article>
+
+              <article class="hero-news-item">
+                <div class="hero-news-meta">
+                  <time datetime="2025-10">Oct 2025</time>
+                  <span>Promotion</span>
+                </div>
+                <div class="hero-news-story">
+                  <h2>Promoted to Senior Software Engineer</h2>
+                  <p>Elytra Studios · XR, computer vision, and full-stack systems</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="hero-news-controls" aria-label="News navigation">
+            <button type="button" data-news-previous aria-label="Previous news item">↑</button>
+            <output aria-live="polite">
+              <span data-news-current>01</span><i>/</i><span data-news-total>01</span>
+            </output>
+            <button type="button" data-news-next aria-label="Next news item">↓</button>
+          </div>
+        </aside>
 
         <a class="scroll-gateway" href="#engineering">
           <span class="gateway-copy">
