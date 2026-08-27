@@ -702,7 +702,7 @@ a {
 }
 
 .hero-news-feed {
-  max-height: 132px;
+  max-height: 154px;
   min-width: 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -1070,6 +1070,20 @@ a {
   letter-spacing: -0.04em;
 }
 
+.award-trophy {
+  display: inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  margin-left: 0.16em;
+  color: var(--card-accent);
+  vertical-align: 0.02em;
+}
+
+.award-highlight {
+  color: var(--card-accent);
+  font-weight: 650;
+}
+
 .card-summary {
   max-width: 40ch;
   margin: 0;
@@ -1079,12 +1093,25 @@ a {
 }
 
 .card-meta {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
   margin-top: 4px;
   color: #8a92a3;
   font-family: var(--mono);
   font-size: 0.66rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.card-youtube {
+  width: 1.1em;
+  height: 1.1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .card-arrow {
@@ -1325,7 +1352,7 @@ a {
     border-bottom: 1px solid var(--line);
   }
   .hero-news-heading p { display: none; }
-  .hero-news-feed { max-height: 152px; }
+  .hero-news-feed { max-height: 178px; }
   .hero-news-item {
     flex-basis: 76px;
     grid-template-columns: 76px minmax(0, 1fr);
@@ -1411,7 +1438,7 @@ a {
   .section-heading { margin-bottom: 36px; }
   .section-heading h2 { font-size: clamp(2.3rem, 11vw, 3.6rem); }
 
-  .hero-news-feed { max-height: 184px; }
+  .hero-news-feed { max-height: 216px; }
   .hero-news-item {
     flex-basis: 92px;
     grid-template-columns: 68px minmax(0, 1fr);
@@ -1433,7 +1460,7 @@ a {
 }
 
 @media (max-width: 350px) {
-  .hero-news-feed { max-height: 220px; }
+  .hero-news-feed { max-height: 252px; }
   .hero-news-item {
     flex-basis: 110px;
     min-height: 110px;
