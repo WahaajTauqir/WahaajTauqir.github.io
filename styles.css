@@ -793,9 +793,12 @@ a {
 
 .hero-news-controls button {
   display: grid;
+  flex: 0 0 28px;
   place-items: center;
   width: 28px;
   height: 28px;
+  aspect-ratio: 1;
+  box-sizing: border-box;
   padding: 0;
   border: 1px solid rgba(94, 231, 255, 0.22);
   border-radius: 50%;
@@ -1347,6 +1350,8 @@ a {
     grid-template-columns: auto 1fr;
     gap: 12px;
     align-items: center;
+    min-height: 54px;
+    box-sizing: border-box;
     padding: 13px 120px 13px 14px;
     border-right: 0;
     border-bottom: 1px solid var(--line);
@@ -1362,9 +1367,9 @@ a {
   }
   .hero-news-controls {
     position: absolute;
-    top: 7px;
+    top: 13px;
     right: 8px;
-    min-height: 39px;
+    height: 28px;
     padding-inline: 6px;
     border-left: 0;
   }
