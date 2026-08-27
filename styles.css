@@ -835,6 +835,7 @@ a {
 }
 
 .card-games { --card-accent: #ff9c62; }
+.card-cinematic { --card-accent: #f1c86b; }
 .card-ar { --card-accent: var(--cyan); }
 .card-vr { --card-accent: var(--violet); }
 .card-vision { --card-accent: var(--lime); }
@@ -1115,7 +1116,7 @@ a {
 
   .work-grid .portfolio-card:nth-child(n),
   .research-grid .portfolio-card { grid-column: span 3; }
-  .work-grid .portfolio-card:last-child,
+  .work-grid .portfolio-card:last-child { grid-column: span 3; }
   .research-grid .portfolio-card:last-child { grid-column: 2 / span 4; }
 }
 
