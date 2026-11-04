@@ -895,6 +895,44 @@ a {
   line-height: 1.6;
 }
 
+.engineering-feature {
+  --card-accent: var(--cyan);
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 32px;
+  margin-bottom: 18px;
+  padding: 26px 28px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.014);
+}
+
+.engineering-feature h3 {
+  margin: 12px 0;
+  font-size: clamp(1.45rem, 2.1vw, 2.1rem);
+  letter-spacing: -0.04em;
+}
+
+.engineering-feature p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.engineering-feature-stack {
+  display: grid;
+  align-content: center;
+  gap: 14px;
+}
+
+.engineering-feature-stack > span {
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+}
+
 .career {
   margin-top: 18px;
   padding: 26px 28px 32px;
@@ -915,7 +953,7 @@ a {
 .career-track {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 26px;
   margin-top: 36px;
 }
@@ -1347,6 +1385,8 @@ a {
   .research-grid .portfolio-card { grid-column: span 3; }
   .work-grid .portfolio-card:last-child { grid-column: span 3; }
   .research-grid .portfolio-card:last-child { grid-column: 2 / span 4; }
+  .career-track { grid-template-columns: 1fr 1fr; row-gap: 32px; }
+  .career-track::before { display: none; }
 }
 
 @media (max-width: 820px) {
@@ -1390,6 +1430,7 @@ a {
   }
 
   .section-heading,
+  .engineering-feature,
   .glance-grid,
   .recognition-grid {
     grid-template-columns: 1fr;
@@ -1411,9 +1452,6 @@ a {
     border-bottom: 1px solid var(--line);
   }
   .skill-group:last-child { border-bottom: 0; }
-
-  .career-track { grid-template-columns: 1fr 1fr; row-gap: 32px; }
-  .career-track::before { display: none; }
 
   .footer-row {
     grid-template-columns: 1fr;
@@ -1467,6 +1505,7 @@ a {
     padding: 9px 14px;
   }
   .skill-group { padding: 22px; }
+  .engineering-feature { padding: 22px; gap: 24px; }
   .career { padding: 22px; }
   .career-heading { gap: 12px; flex-direction: column; }
   .career-track { grid-template-columns: 1fr; margin-top: 28px; }

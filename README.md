@@ -12,8 +12,8 @@ GitHub Pages. The resume carries the official record. This page is the showcase.
 | --- | --- |
 | Hero | Identity, a scalable News rail, and the visual "new world" moment (portrait, orbits, particle field). |
 | At a glance | One line each for the engineering track and the research track. |
-| 01 · Software Engineering | Six work cards (Computer Vision, Explainable Systems, Cinematic Sequences, Hyper Casual Games, AR, VR), tech matrix, career track. |
-| 02 · Research | Three outcome cards (publication, patent application, applied system) and research tools. |
+| 01 · Software Engineering | Internal Operations Platform spotlight, six work cards (Computer Vision, Explainable Systems, Cinematic Sequences, Hyper Casual Games, AR, VR), tech matrix, career track through Team Lead. |
+| 02 · Research | Three outcome cards (publication, credit scoring, thermal sensing with a pending patent application) and research tools. |
 | 03 · Recognition & Credentials | Awards and certifications, every item linked to its source. |
 | 04 · Contact | Email, LinkedIn, footer links. |
 
